@@ -1,7 +1,8 @@
 (function () {
+
   const state = {
     restaurant: null,
-    colors: ['primary', 'secondary', 'success', 'warning', 'danger', 'info']
+    colors: ['primary', 'secondary', 'success', 'warning', 'danger', 'info'],
   };
 
   const mutations = {
@@ -13,7 +14,7 @@
   const actions = {
     setRestaurant(context, payload) {
       const { commit } = context;
-      commit("SET_RESTAURANT", payload);
+      commit('SET_RESTAURANT', payload);
     },
   };
 
@@ -44,4 +45,5 @@
     mutations,
     actions
   };
+
 })();

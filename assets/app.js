@@ -3,7 +3,7 @@
 
   const loadHtml = function (file) {
     return new Promise((resolve, reject) => {
-      fetch(`/${file}.html`)
+      fetch(file)
         .then(res => res.text())
         .then(html => {
           app.html = html;
@@ -19,15 +19,11 @@
     }
   });
 
-  await loadHtml('app');
+  await loadHtml('/assets/app.html');
   
-  var vueApp = new Vue({
+  window.app = new Vue({
     el: '#app',
     store,
-    components: {
-    },
-    data: {
-    },
     template: app.html,
     async created() {
       // await this.loadFilters();
@@ -38,18 +34,18 @@
     },
     methods: {
       ...Vuex.mapActions({
-        setPageSize: "searchStore/setPageSizeParam",
-        search: "searchStore/search",
-        loadFilters: "searchStore/loadFilters",
-        setEndpoint: "appStore/setEndpoint",
-        setShowFilter: "appStore/setShowFilter"
+        setPageSize: 'searchStore/setPageSizeParam',
+        search: 'searchStore/search',
+        loadFilters: 'searchStore/loadFilters',
+        setEndpoint: 'appStore/setEndpoint',
+        setShowFilter: 'appStore/setShowFilter'
       }),
       setCompleted() {
         this.setShowFilter(true);
 
         //clear window variables to make app secure
         // window.app = null;
-        window.store = null;
+        delete window.store;
 
         // console.log('start search');
         this.search();
@@ -57,11 +53,12 @@
     },
     computed: {
       ...Vuex.mapGetters({
-        processing: 'searchStore/getProcessing'
+        processing: 'searchStore/getProcessing',
       }),
-    }
+      loading_style() {
+        return `display: ${this.processing ? 'block' : 'none'}`;
+      },
+    },
   });
-
-  window.app = vueApp;
 
 })();

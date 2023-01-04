@@ -1,72 +1,77 @@
 <template>
-  <div class="mb-3">
-    <div class="input-group input-group-sm">
-      <b-button variant="outline-danger" @click="clearSearchValue">Clear</b-button>
 
-      <div class="input-group-prepend" title="Search by field">
-        <b-dropdown variant="info" size="sm" :text="currentSearchField" class="">
-          <b-dropdown-item v-for="field in searchFields" @click="searchByField(field.value)">{{ field.text }}</b-dropdown-item>
+  <div class='mb-3'>
+    <div class='input-group input-group-sm'>
+      <b-button variant='outline-danger' @click='clearSearchValue'>Clear</b-button>
+
+      <div class='input-group-prepend' title='Search by field'>
+        <b-dropdown variant='info' size='sm' :text='currentSearchField' class=''>
+          <b-dropdown-item v-for='field in searchFields'
+            @click='searchByField(field.value)'>{{ field.text }}</b-dropdown-item>
         </b-dropdown>
       </div>
 
-      <b-form-input ref="inpSearch" @keyup.enter="startSearch" v-model="searchValue"></b-form-input>
+      <b-form-input ref='inpSearch' @keyup.enter='startSearch' v-model='searchValue'></b-form-input>
 
-      <b-button variant="warning" @click="startSearch">Search</b-button>
+      <b-button variant='warning' @click='startSearch'>Search</b-button>
     </div>
 
-    <div class="mt-3 d-flex justify-content-between">
-      <div class="text-start">
-        <b-dropdown variant="info" size="sm" :text="currentPageSize" class="">
-          <b-dropdown-item v-for="pageSize in pageSizeOptions" @click="setPaging(pageSize.value)">{{ pageSize.text }}</b-dropdown-item>
+    <div class='mt-3 d-flex justify-content-between'>
+      <div class='text-start'>
+        <b-dropdown variant='info' size='sm' :text='currentPageSize' class=''>
+          <b-dropdown-item v-for='pageSize in pageSizeOptions'
+            @click='setPaging(pageSize.value)'>{{ pageSize.text }}</b-dropdown-item>
         </b-dropdown>
 
-        <b-button size="sm" variant="danger" @click="resetAllFilters">Reset all filters</b-button>
+        <b-button size='sm' variant='danger' @click='resetAllFilters'>Reset all filters</b-button>
       </div>
 
-      <div class="text-end">
-        <b-dropdown variant="info" size="sm" :text="currentSearchMethod" class="">
-          <b-dropdown-item v-for="method in filteredSearchMethods" @click="searchByMethod(method.value)">{{ method.text }}</b-dropdown-item>
+      <div class='text-end'>
+        <b-dropdown variant='info' size='sm' :text='currentSearchMethod' class=''>
+          <b-dropdown-item v-for='method in filteredSearchMethods'
+            @click='searchByMethod(method.value)'>{{ method.text }}</b-dropdown-item>
         </b-dropdown>
 
-        <b-dropdown variant="info" class="right-sorting" text="Sorting" size="sm" ref="dropdownSorting" right>
-          <div class="mx-3">
-            <b-form-group label="Name" @submit.stop.prevent
-              class="mb-3" label-class="fw-bold">
+        <b-dropdown variant='info' class='right-sorting' text='Sorting' size='sm' ref='dropdownSorting' right>
+          <div class='mx-3'>
+            <b-form-group label='Name' @submit.stop.prevent
+              class='mb-3' label-class='fw-bold'>
               <b-form-radio-group
-                v-model="sortByName"
-                :options="sortOptions"
-                name="sortByName"
+                v-model='sortByName'
+                :options='sortOptions'
+                name='sortByName'
                 stacked plain
               ></b-form-radio-group>
             </b-form-group>
-            <b-form-group label="Rating" @submit.stop.prevent
-              class="mb-3" label-class="fw-bold">
+            <b-form-group label='Rating' @submit.stop.prevent
+              class='mb-3' label-class='fw-bold'>
               <b-form-radio-group
-                v-model="sortByRating"
-                :options="sortOptions"
-                name="sortByRating"
+                v-model='sortByRating'
+                :options='sortOptions'
+                name='sortByRating'
                 stacked plain
               ></b-form-radio-group>
             </b-form-group>
-            <b-form-group label="Published on" @submit.stop.prevent
-              class="mb-3" label-class="fw-bold">
+            <b-form-group label='Published on' @submit.stop.prevent
+              class='mb-3' label-class='fw-bold'>
               <b-form-radio-group
-                v-model="sortByPublishedOn"
-                :options="sortOptions"
-                name="sortByPublishedOn"
+                v-model='sortByPublishedOn'
+                :options='sortOptions'
+                name='sortByPublishedOn'
                 stacked plain
               ></b-form-radio-group>
             </b-form-group>
 
-            <div class="d-flex justify-content-between">
-              <b-button variant="primary" size="sm" @click="submitSorting">Submit</b-button>
-              <b-button variant="secondary" size="sm" @click="resetSorting">Reset</b-button>
+            <div class='d-flex justify-content-between'>
+              <b-button variant='primary' size='sm' @click='submitSorting'>Submit</b-button>
+              <b-button variant='secondary' size='sm' @click='resetSorting'>Reset</b-button>
             </div>
           </div>
         </b-dropdown>
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -128,15 +133,15 @@
       },
     },
     mounted() {
-      this.pageSizeSelected = this.$store.getters["searchStore/getPageSize"];
+      this.pageSizeSelected = this.$store.getters['searchStore/getPageSize'];
     },
     methods: {
       ...Vuex.mapActions({
-        setSearchParam: "searchStore/setSearchParam",
-        setSortParams: "searchStore/setSortParams",
-        toggleResetFilterFlag: "searchStore/toggleResetFilterFlag",
-        setPageSize: "searchStore/setPageSizeParam",
-        search: "searchStore/search"
+        setSearchParam: 'searchStore/setSearchParam',
+        setSortParams: 'searchStore/setSortParams',
+        toggleResetFilterFlag: 'searchStore/toggleResetFilterFlag',
+        setPageSize: 'searchStore/setPageSizeParam',
+        search: 'searchStore/search',
       }),
       clearSearchValue() {
         this.searchValue = '';
@@ -189,7 +194,7 @@
         this.pageSizeSelected = pageSize;
         this.setPageSize(this.pageSizeSelected);
         this.startSearch();
-      }
+      },
     },
   }
 </script>

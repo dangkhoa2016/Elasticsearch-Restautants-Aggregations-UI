@@ -1,7 +1,8 @@
 (function () {
+
   const state = {
-    endpoint: 'https://3000-coffee-antlion-zi0929v1.ws-us29.gitpod.io',
-    showFilter: false
+    endpoint: 'https://elasticsearch-restaurants-aggregations-api-nodejs.khoa2016.repl.co',
+    showFilter: false,
   };
 
   const mutations = {
@@ -16,11 +17,11 @@
   const actions = {
     setEndpoint(context, payload) {
       const { commit } = context;
-      commit("SET_ENDPOINT", payload);
+      commit('SET_ENDPOINT', payload);
     },
     setShowFilter(context, payload) {
       const { commit } = context;
-      commit("SET_SHOW_FILTER", payload);
+      commit('SET_SHOW_FILTER', payload);
     },
   };
 
@@ -39,4 +40,5 @@
     mutations,
     actions
   };
+
 })();

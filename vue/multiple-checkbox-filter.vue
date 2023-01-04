@@ -1,24 +1,25 @@
 <template>
 
-  <filter-card @reset="reset" :title="title">
+  <filter-card @reset='reset' :title='title'>
     <template #default>
       <b-form-checkbox-group
-        v-model="checkboxSelected1"
-        :options="options1" stacked
-        :name="cbId" plain @change="onChange"
+        v-model='checkboxSelected1'
+        :options='options1' stacked
+        :name='cbId' plain @change='onChange'
       ></b-form-checkbox-group>
 
-      <b-collapse v-if="options2.length > 0" :id="bodyId" v-model="collapseVisible" class="">
+      <b-collapse v-if='options2.length > 0' :id='bodyId' v-model='collapseVisible'>
         <b-form-checkbox-group
-          v-model="checkboxSelected2"
-          :options="options2" stacked
-          :name="cbId" plain @change="onChange"
+          v-model='checkboxSelected2'
+          :options='options2' stacked
+          :name='cbId' plain @change='onChange'
         ></b-form-checkbox-group>
       </b-collapse>
     </template>
 
     <template #more-button>
-      <b-button v-if="options2.length > 0" size="sm" class="float-start" variant="info" v-b-toggle="bodyId">{{ textToggle }}</b-button>
+      <b-button v-if='options2.length > 0' size='sm'
+        class='float-start' variant='info' v-b-toggle='bodyId'>{{ textToggle }}</b-button>
     </template>
   </filter-card>
 
@@ -41,21 +42,21 @@
         checkboxSelected1: [],
         checkboxSelected2: [],
         options1,
-        options2
-      }
+        options2,
+      };
     },
     props: {
       title: {
         type: String,
-        default: 'Multiple Checkbox Filter'
+        default: 'Multiple Checkbox Filter',
       },
       filterKey: {
         type: String,
-        default: 'multiple-checkbox-filter'
+        default: 'multiple-checkbox-filter',
       },
       options: {
         type: Array,
-      }
+      },
     },
     computed: {
       ...Vuex.mapGetters({
@@ -65,21 +66,21 @@
         return this.collapseVisible ? 'Show less' : 'Show more';
       },
       checkedItems () {
-        return this.checkboxSelected1.concat(this.checkboxSelected2)
-      }
+        return this.checkboxSelected1.concat(this.checkboxSelected2);
+      },
     },
     watch: {
       resetFilterFlag() {
         this.internalReset();
-      }
+      },
     },
     mounted() {
       this.setSearchParam({ [this.filterKey]: this.checkedItems });
     },
     methods: {
       ...Vuex.mapActions({
-        setSearchParam: "searchStore/setSearchParam",
-        search: "searchStore/search"
+        setSearchParam: 'searchStore/setSearchParam',
+        search: 'searchStore/search',
       }),
       internalReset() {
         this.checkboxSelected1 = [];
@@ -92,7 +93,7 @@
       onChange() {
         this.setSearchParam({ [this.filterKey]: this.checkedItems });
         this.search();
-      }
-    }
+      },
+    },
   }
 </script>

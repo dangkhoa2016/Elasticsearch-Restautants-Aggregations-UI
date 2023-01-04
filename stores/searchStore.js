@@ -1,4 +1,5 @@
 (function () {
+
   function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   };
@@ -10,7 +11,7 @@
     results: [],
     filters: [],
     resetFilterFlag: false,
-    index: 'restaurants2',
+    index: 'restaurants',
     pageSize: 0,
     from: 0
   };
@@ -47,19 +48,19 @@
   const actions = {
     setSearchParam(context, payload) {
       const { commit } = context;
-      commit("SET_SEARCH_PARAM", payload);
+      commit('SET_SEARCH_PARAM', payload);
     },
     setPageSizeParam(context, payload) {
       const { commit } = context;
-      commit("SET_PAGE_SIZE", payload);
+      commit('SET_PAGE_SIZE', payload);
     },
     setSortParams(context, payload) {
       const { commit } = context;
-      commit("SET_SORT_PARAM", payload);
+      commit('SET_SORT_PARAM', payload);
     },
     setFromParam(context, payload) {
       const { commit } = context;
-      commit("SET_FROM_PARAM", payload);
+      commit('SET_FROM_PARAM', payload);
     },
     loadFilters(context) {
       var { commit, state: { index }, rootState: { appStore: { endpoint } } } = context;
@@ -69,7 +70,7 @@
         fetch(`${endpoint}/filters?index=${index}`)
           .then(res => res.json())
           .then(json => {
-            commit("SET_FILTERS", json);
+            commit('SET_FILTERS', json);
             resolve();
           }).catch(ex => {
             console.log('Error load filters', ex);
@@ -78,13 +79,14 @@
       });
     },
     search(context) {
-      var { commit, state: { queries, sorts, from, index, pageSize: size }, rootState: { appStore: { endpoint } } } = context;
+      var { commit, state: { queries, sorts, from, index, pageSize: size },
+        rootState: { appStore: { endpoint } } } = context;
       // console.log('queries', JSON.stringify(queries, null, 2));
       // console.log('sorts', JSON.stringify(sorts, null, 2));
       // console.log('from', from, 'size', size);
 
       return new Promise((resolve) => {
-        commit("TOGGLE_PROCESSING", true);
+        commit('TOGGLE_PROCESSING', true);
 
         fetch(`${endpoint}/search`, {
           method: 'post',
@@ -96,11 +98,11 @@
           .then(res => res.json())
           .then(json => {
             commit('SET_SEARCH_RESULT', json);
-            commit("TOGGLE_PROCESSING", false);
+            commit('TOGGLE_PROCESSING', false);
             resolve();
           }).catch(ex => {
             console.log('Error fetch', ex);
-            commit("TOGGLE_PROCESSING", false);
+            commit('TOGGLE_PROCESSING', false);
             resolve();
           });
 
@@ -113,11 +115,11 @@
         }).then(res => res.json())
           .then(json => {
             commit('SET_SEARCH_RESULT', json);
-            commit("TOGGLE_PROCESSING", false);
+            commit('TOGGLE_PROCESSING', false);
             resolve();
           }).catch(ex => {
             console.log('Error fetch', ex);
-            commit("TOGGLE_PROCESSING", false);
+            commit('TOGGLE_PROCESSING', false);
             resolve();
           });
         */
@@ -125,11 +127,11 @@
     },
     toggleProcessing(context, payload) {
       const { commit } = context;
-      commit("TOGGLE_PROCESSING", payload);
+      commit('TOGGLE_PROCESSING', payload);
     },
     toggleResetFilterFlag(context, payload) {
       const { commit } = context;
-      commit("TOGGLE_RESET_FILTER_FLAG", payload);
+      commit('TOGGLE_RESET_FILTER_FLAG', payload);
     },
   };
 
@@ -153,4 +155,5 @@
     mutations,
     actions,
   };
+
 })();

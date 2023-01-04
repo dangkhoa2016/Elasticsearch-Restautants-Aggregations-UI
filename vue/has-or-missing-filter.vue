@@ -1,12 +1,12 @@
 <template>
 
-  <filter-card @reset="reset" :title="title">
+  <filter-card @reset='reset' :title='title'>
     <template #default>
       <b-form-radio-group
-        v-model="radioSelected"
-        :options="options"
-        :name="id" plain
-        stacked @change="onChange"
+        v-model='radioSelected'
+        :options='options'
+        :name='id' plain
+        stacked @change='onChange'
       ></b-form-radio-group>
     </template>
   </filter-card>
@@ -18,24 +18,24 @@
     data() {
       return {
         radioSelected: this.value,
-      }
+      };
     },
     props: {
       value: String,
       title: {
         type: String,
-        default: 'Has Or Missing Filter'
+        default: 'Has Or Missing Filter',
       },
       filterKey: {
         type: String,
-        default: 'has-or-missing-filter'
+        default: 'has-or-missing-filter',
       },
       options: {
         type: Array,
         default: [
           { text: 'Yes', value: '1' },
           { text: 'No', value: '2' },
-        ]
+        ],
       },
     },
     computed: {
@@ -49,7 +49,7 @@
     watch: {
       resetFilterFlag() {
         this.internalReset();
-      }
+      },
     },
     mounted() {
       // console.log('Has Or Missing Filter', this.value, this.radioSelected, JSON.stringify(this.options));
@@ -57,8 +57,8 @@
     },
     methods: {
       ...Vuex.mapActions({
-        setSearchParam: "searchStore/setSearchParam",
-        search: "searchStore/search"
+        setSearchParam: 'searchStore/setSearchParam',
+        search: 'searchStore/search'
       }),
       reset() {
         this.radioSelected = null;
@@ -72,10 +72,10 @@
         this.radioSelected = null;
       },
       onChange() {
-        console.log('change', this.radioSelected);
+        // console.log('change', this.radioSelected);
         this.$emit('input', this.radioSelected);
         this.callSearch();
-      }
-    }
+      },
+    },
   }
 </script>

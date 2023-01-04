@@ -4,21 +4,15 @@ Vue.component('restaurant-card', {
       type: Object,
     },
   },
-  created() {
-  },
   methods: {
     ...Vuex.mapActions({
-      setRestaurant: "displayStore/setRestaurant"
+      setRestaurant: 'displayStore/setRestaurant'
     }),
     showRestaurant() {
       this.setRestaurant(this.restaurant);
-    }
+    },
   },
   computed: {
-    ...Vuex.mapGetters({
-    }),
-    ...Vuex.mapState({
-    }),
     dataRestaurant() {
       return this.restaurant || {};
     },
@@ -39,9 +33,6 @@ Vue.component('restaurant-card', {
       const { url = 'https://cdn-icons-png.flaticon.com/512/2533/2533563.png' } = medium || {};
       return url;
     },
-  },
-  mounted() {
-    // console.log('this.restaurant', this.dataRestaurant);
   },
   template: `<b-col class="mb-3">
         <b-card

@@ -12,7 +12,7 @@
     if (typeof date === 'string')
       date = Date.parse(date);
     if (date) {
-      if (typeof date.getDate !== "function")
+      if (typeof date.getDate !== 'function')
         date = new Date(date);
       var d = date.getDate();
       var m = strArray[date.getMonth()];
