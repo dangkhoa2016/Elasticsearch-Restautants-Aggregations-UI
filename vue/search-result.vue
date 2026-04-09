@@ -7,15 +7,26 @@
     </template>
     
     <div class='p-2'>
-      <b-row class='row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 g-2'>
-        <restaurant-card :restaurant='restaurant' v-for='restaurant in restaurants'></restaurant-card>
-      </b-row>
+      <div v-if='restaurants.length === 0' class='text-center text-secondary py-5'>
+        <span class='bi-emoji-frown'></span> No restaurant found, please try with different search criteria.
+        <p>Your current filters:</p>
+        <div class=''>
+          <b-badge v-for='(value, key) in searchParams' :key='key' class='bg-secondary mx-1'>
+            {{ key }}: {{ value }}
+          </b-badge>
+        </div>
+      </div>
+      <div v-else>
+        <b-row class='row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 g-2'>
+          <restaurant-card :restaurant='restaurant' v-for='restaurant in restaurants'></restaurant-card>
+        </b-row>
 
-      <b-pagination
-        v-model='currentPage' :total-rows='total'
-        :per-page='perPage' class='mt-3'
-        @change='setFrom' align='center'
-      ></b-pagination>
+        <b-pagination
+          v-model='currentPage' :total-rows='total'
+          :per-page='perPage' class='mt-3'
+          @change='setFrom' align='center'
+        ></b-pagination>
+      </div>
     </div>
   </b-card>
 
@@ -35,6 +46,7 @@
         searchResults: 'searchStore/getSearchResults',
         perPage: 'searchStore/getPageSize',
         fromParam: 'searchStore/getFrom',
+        searchParams: 'searchStore/getSearchParams',
       }),
     },
     methods: {
@@ -53,6 +65,13 @@
           behavior: 'smooth',
         });
       },
+      transformRestaurantData(restaurant) {
+        const record = restaurant._source || {};
+        return {
+          ...record,
+          id: restaurant._id,
+        };
+      },
     },
     watch: {
       searchResults(val) {
@@ -60,7 +79,7 @@
             hits = [],
             total: { value = 0 } = {},
           } = {} } = val || {};
-        this.restaurants = hits.length > 0 ? hits.map(h => h._source) : hits;
+        this.restaurants = hits.length > 0 ? hits.map(this.transformRestaurantData) : hits;
         this.total = value;
         this.scrollTop();
       },

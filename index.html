@@ -36,10 +36,59 @@
 
     <div id='app'></div>
 
-    <script src='https://cdn.jsdelivr.net/combine/npm/vue3-sfc-loader@0.8.4/dist/vue2-sfc-loader.js,npm/es6-promise@4.2.8,npm/vue@2.6.14,npm/vuex@3.6.2,npm/vue-ctk-date-time-picker@2.5.0/dist/vue-ctk-date-time-picker.umd.min.js,npm/bootstrap-vue@2.21.2/dist/bootstrap-vue.min.js'>
-    </script>
+    <script>
+      /**
+       * Helper to load JS files dynamically
+       * @param {string} src - The URL of the script
+       * @param {boolean} isAsync - Should the script be async
+       */
+      function injectScript(src, isAsync = false) {
+        return new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = src;
+          script.async = isAsync;
 
-    <script src='/assets/loader.js'></script>
+          script.onload = () => resolve(src);
+          script.onerror = () => reject(new Error(`Failed to load script: ${src}`));
+
+          document.head.appendChild(script);
+        });
+      }
+
+      async function initAppLifecycle() {
+        const baseUrl = 'https://cdn.jsdelivr.net/combine/';
+        const packages = [
+          'npm/vue@2.7.16',
+          'npm/vuex@3.6.2',
+          'npm/vue3-sfc-loader@0.8.4/dist/vue2-sfc-loader.js',
+          'npm/bootstrap-vue@2.23.1/dist/bootstrap-vue.min.js',
+          'npm/vue-ctk-date-time-picker@2.5.0/dist/vue-ctk-date-time-picker.umd.min.js',
+          'npm/es6-promise@4.2.8/dist/es6-promise.auto.min.js'
+        ];
+
+        try {
+          // 1. Load core libraries from JSDelivr first
+          const combinedUrl = baseUrl + packages.join(',').replace(/\s+/g, '');
+          debug('Loading core libraries...');
+          await injectScript(combinedUrl);
+
+          // 2. Once core is ready, load your local loader
+          debug('Core loaded. Loading /assets/loader.js...');
+          await injectScript('/assets/loader.js');
+
+          console.log('App initialization sequence complete.');
+        } catch (error) {
+          console.error('Critical error during script loading:', error);
+        }
+      }
+
+      // Simple debug helper to mirror your backend style
+      function debug(msg) {
+        console.log(`[Lifecycle] ${msg}`);
+      }
+
+      initAppLifecycle();
+    </script>
   </body>
 
 </html>

@@ -1,4 +1,5 @@
 (function () {
+  const imagePlaceholder = 'https://cdn-icons-png.flaticon.com/512/2533/2533563.png';
 
   const state = {
     restaurant: null,
@@ -31,9 +32,10 @@
     },
     getRestaurantPhoto: (state) => {
       const { photos: { medium } = {} } = state.restaurant || {};
-      const { url = 'https://cdn-icons-png.flaticon.com/512/2533/2533563.png' } = medium || {};
+      const { url = imagePlaceholder } = medium || {};
       return url;
     },
+    getImagePlaceholder: () => imagePlaceholder,
   };
 
   if (!window['store'])

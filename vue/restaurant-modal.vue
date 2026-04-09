@@ -15,7 +15,7 @@
         </b-row>
         <b-row no-gutters>
           <b-col md='4'>
-            <b-card-img :src='restaurantPhoto' alt='Image' class='rounded'></b-card-img>
+            <b-card-img :src='restaurantPhoto' alt='Image' @error="onImageError" class='rounded'></b-card-img>
           </b-col>
           <b-col md='8'>
             <b-card-text>
@@ -152,6 +152,10 @@
         index = (Math.abs(index || 0)) % this.colors.length;
         return this.colors[index];
       },
+      onImageError(event) {
+        // console.log('Image load error, using placeholder', event);
+        event.target.src = this.imagePlaceholder;
+      },
     },
     data() {
       return {
@@ -166,6 +170,7 @@
         restaurantName: 'displayStore/getRestaurantName',
         restaurantReviews: 'displayStore/getRestaurantReviews',
         restaurantPhoto: 'displayStore/getRestaurantPhoto',
+        imagePlaceholder: 'displayStore/getImagePlaceholder',
       }),
     },
     watch: {
