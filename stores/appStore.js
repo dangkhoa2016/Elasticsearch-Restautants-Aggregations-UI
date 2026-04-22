@@ -1,7 +1,7 @@
 (function () {
 
   const state = {
-    endpoint: 'https://obscure-space-couscous-49qrvqxx5g279x7-3000.app.github.dev',
+    endpoint: 'https://elasticsearch-restaurants-aggregations-api-nodejs.dangkhoa.dev',
     showFilter: false,
   };
 
